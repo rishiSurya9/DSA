@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<title>
+			Linked List Queue Visualization 
+		</title>
+		
+		<!-- css sheet for how the page is laid out -->
+		
+		<link rel="stylesheet" href="/visualizationPageStyle.css">
+		<link rel="stylesheet" href="/ThirdParty/jquery-ui-1.8.11.custom.css">
+		<script src="/ThirdParty/jquery-1.5.2.min.js"></script>
+		<script src="/ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
+				
+		<!-- Javascript for the actual visualization code -->
+		<script type = "text/javascript" src = "/AnimationLibrary/CustomEvents.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/UndoFunctions.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimatedObject.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimatedLabel.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimatedCircle.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimatedRectangle.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimatedLinkedList.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/HighlightCircle.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/Line.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/ObjectManager.js"> </script>
+		<script type = "text/javascript" src = "/AnimationLibrary/AnimationMain.js"> </script>
+
+		<script type = "text/javascript" src = "/AlgorithmLibrary/Algorithm.js"> </script>
+		<script type = "text/javascript" src = "/AlgorithmLibrary/QueueLL.js"> </script> 
+				
+			
+	 </head> 
+	
+	<body onload="init();" class="VisualizationMainPage">
+		
+		<div id = "container">
+			
+			<div id="header">  
+				<h1>Queue (Linked List Implementaion)</h1>
+				<button class="Home_btn"><a href="/index.html">Home</a></button>
+
+			</div>
+			
+			<div = id = "mainContent"> 
+				
+				<div id = "algoControlSection">
+					<!-- Table for buttons to control specific animation (insert/find/etc) -->
+					<!-- (filled in by javascript code specific to the animtion) -->
+					<table id="AlgorithmSpecificControls"> </table> 
+				</div>
+				
+					<!-- Drawing canvas where all animation is done.  Note:  can be resized in code -->
+									
+				<canvas id="canvas" width="900" height="500"></canvas>
+				
+				<div id="code">
+					<div id="algo">
+						<div class="name_and_button">
+							<h2>Algorithm</h2>
+							<button id="copyButton">Copy</button>
+						</div>
+						<div class="code-container">
+							<pre><code id="codeBlock" class="language-java">public class Queue {
+								private Node front; // Pointer to the front of the queue
+								private Node rear;  // Pointer to the rear of the queue
+								private int size;   // Size of the queue
+							
+								// Constructor to initialize the queue
+								public Queue() {
+									this.front = null;
+									this.rear = null;
+									this.size = 0;
+								}
+							
+								// Method to add an element to the queue (enqueue)
+								public void enqueue(int data) {
+									Node newNode = new Node(data);
+									if (rear == null) {
+										// If the queue is empty, front and rear both point to the new node
+										front = rear = newNode;
+									} else {
+										// Add the new node to the end of the queue and move the rear pointer
+										rear.next = newNode;
+										rear = newNode;
+									}
+									size++;
+									System.out.println(data + " enqueued to the queue.");
+								}
+								// Method to remove an element from the queue (dequeue)
+								public int dequeue() {
+									if (front == null) {
+										// Queue is empty
+										System.out.println("Queue Underflow. The queue is empty.");
+										return -1;
+									}
+							
+									int data = front.data; // Retrieve the data from the front node
+									front = front.next;    // Move the front pointer to the next node
+							
+									// If the queue becomes empty after the operation, set rear to null
+									if (front == null) {
+										rear = null;
+									}
+									size--;
+									System.out.println(data + " dequeued from the queue.");
+									return data;
+								}
+							
+								// Method to check if the queue is empty
+								public boolean isEmpty() {
+									return front == null;
+								}
+							
+								// Method to clear the queue
+								public void clear() {
+									front = rear = null; // Reset front and rear pointers
+									size = 0;            // Reset the size of the queue
+									System.out.println("Queue cleared.");
+								}
+							}
+										</code></pre>
+						</div>
+					</div>
+	
+				</div>
+				<div id="comp">
+					<div id="time">Time Complexity: O(1)</div>
+					<div id="space">Space Complexity: O(1)</div>
+				</div>
+				<div id = "generalAnimationControlSection">
+					<!-- Table for buttons to control general animation (play/pause/undo/etc) ->
+					<!-- (filled in by javascript code, specifically AnimationMain.js)  -->
+
+					<table id="GeneralAnimationControls">  </table>		
+				</div>
+				
+			</div> <!-- mainContent -->
+			
+			<div id="footer">  
+				<p><a href="Algorithms.html">Algorithm Visualizations</a></p>
+			</div>
+
+		</div><!-- container -->
+		<script>
+			document.getElementById('copyButton').addEventListener('click', function () {
+				const codeBlock = document.getElementById('codeBlock');
+				const textArea = document.createElement('textarea');
+				textArea.value = codeBlock.textContent;
+				document.body.appendChild(textArea);
+				textArea.select();
+				document.execCommand('copy');
+				document.body.removeChild(textArea);
+			});
+		</script>
+	</body>
+</html>
